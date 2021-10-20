@@ -1,0 +1,171 @@
+<div class="zone-invoice">
+  <div class="container">
+    <div class="zone-invoice__header col">
+      <div class="row">
+        <div class="col-6">
+          <div class="d-inline-flex p-2">
+            <img [src]="invoice.logo" class="img-thumbnail" alt="Invoice Logo">
+          </div>
+
+          <div class="row">
+            <span class="show-from">{{ invoice.from }}</span>
+          </div>
+
+          <div class="row">
+            <table class="show-user-info">
+              <thead>
+                <tr>
+                  <th>Bill To:</th>
+                  <th>Address:</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>{{ invoice.bill_to }}</td>
+                  <td>{{ invoice.address }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="row">
+            <div class="show-title">
+              <h3 class="title">Invoice</h3>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="show-id">
+              <p># {{ invoice.id }}</p>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="show-date">
+              <div class="col-8">
+                <div class="date">
+                  Date:
+                </div>
+              </div>
+
+              <div class="col-4">
+                <div class="invoice-date">
+                  {{ formatDate(invoice.date) }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="show-balance-due">
+              <div class="col-8">
+                <div class="balance">
+                  Balance Due:
+                </div>
+              </div>
+
+              <div class="col-4">
+                <div class="balance-due">
+                  ${{ handleSplitNumberWithDot(calBalanceDue()) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zone-invoice__body">
+      <div class="show-table-item">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Rate</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let item of invoice.items">
+              <td>{{ item.name }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>${{ item.rate }}</td>
+              <td>${{ item.quantity * item.rate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="show-zone-cal">
+        <div class="row">
+          <div class="col-10">
+            <p>Subtotal:</p>
+          </div>
+          <div class="col-2">
+            <p>${{ handleSplitNumberWithDot(totalAmount()) }}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-10">
+            <p>Discount (21%):</p>
+          </div>
+          <div class="col-2">
+            <p>${{ handleSplitNumberWithDot(calDiscount()) }}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-10">
+            <p>Tax (7%):</p>
+          </div>
+          <div class="col-2">
+            <p>${{ handleSplitNumberWithDot(calTaxAfterDiscout()) }}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-10">
+            <p>Shipping</p>
+          </div>
+          <div class="col-2">
+            <p>${{ handleSplitNumberWithDot(formatShipping()) }}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-10">
+            <p>Total:</p>
+          </div>
+          <div class="col-2">
+            <p>${{ handleSplitNumberWithDot(calTotal()) }}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-10">
+            <p>Amount Paid:</p>
+          </div>
+          <div class="col-2">
+            <p>${{ handleSplitNumberWithDot(formatAmountPaid()) }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zone-invoice__footer col">
+      <div class="row">
+        <p class="note">Note:</p>
+      </div>
+
+      <div class="row">
+        <p class="show-note">{{ invoice.note }}</p>
+      </div>
+    </div>
+  </div>
+</div>
